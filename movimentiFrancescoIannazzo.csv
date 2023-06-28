@@ -1,0 +1,3 @@
+"id_sessione","data_del_movimento","saldo_precedente","id_tipo_movimento","importo","saldo_successivo","id_conto"
+"1","2023-06-28","1000.00","PRE",,"900.00","1"
+" Interessi accumulati 50.0"," al netto: 0.0"

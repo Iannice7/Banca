@@ -1,0 +1,67 @@
+DROP TABLE IF EXISTS correntista;
+CREATE TABLE correntista (
+    id_correntista INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    cognome VARCHAR(50) NOT NULL,
+    citta VARCHAR(50) NOT NULL,
+    nazione VARCHAR(50) NOT NULL,
+    telefono varchar(10) not null
+);
+
+DROP TABLE IF EXISTS tipo_movimento;
+CREATE TABLE tipo_movimento (
+    id_tipo_movimento VARCHAR(3) PRIMARY KEY,
+    descrizione VARCHAR(50)
+);
+
+DROP TABLE IF EXISTS tipo_conto;
+CREATE TABLE tipo_conto (
+    id_tipo_conto VARCHAR(2) PRIMARY KEY,
+    descrizione VARCHAR(50),
+    tasso DECIMAL(5,2)
+);
+
+-- ------------------------------- TABELLE CON RELAZIONI ------------------------------------------------------
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(20) UNIQUE,
+    pass VARCHAR(8),
+    id_correntista INT,
+    FOREIGN KEY (id_correntista) REFERENCES correntista(id_correntista) 
+);
+
+ALTER TABLE users
+ADD CONSTRAINT FK_users
+FOREIGN KEY (id_correntista)
+REFERENCES correntista(id_correntista);
+
+ALTER TABLE correntista
+ADD CONSTRAINT FK_correntista
+FOREIGN KEY (id_correntista)
+REFERENCES users(id_correntista);
+
+
+DROP TABLE IF EXISTS conto;
+CREATE TABLE conto (
+    id_conto INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_correntista INT,
+    id_tipo VARCHAR(2),
+    data_apertura DATE,
+    data_chiusura DATE,
+    FOREIGN KEY (id_correntista) REFERENCES correntista(id_correntista),
+    FOREIGN KEY (id_tipo) REFERENCES tipo_conto(id_tipo_conto)
+);
+
+DROP TABLE IF EXISTS movimenti;
+CREATE TABLE movimenti (
+    id_sessione INT PRIMARY key auto_increment,
+    data_del_movimento DATE,
+    saldo_precedente DECIMAL(9,2),
+    id_tipo_movimento VARCHAR(3),
+    importo VARCHAR(50),
+    saldo_successivo DECIMAL(9,2),
+    id_conto INT,
+    FOREIGN KEY (id_tipo_movimento) REFERENCES tipo_movimento(id_tipo_movimento),
+    FOREIGN KEY (id_conto) REFERENCES conto(id_conto)
+);
