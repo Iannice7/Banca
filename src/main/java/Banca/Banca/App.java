@@ -14,9 +14,14 @@ public class App
     {
         GestoreATM display = new GestoreATM();
         display.init();
+        while(true) {
+        	if(display.logout()==false)
+        		display = new GestoreATM();
+        		display.init();
+        	break;
+        }
         
     }
-    
     
     public static LocalDate dataRandom(Titolare t) {
     	LocalDate data = null;

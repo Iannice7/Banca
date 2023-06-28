@@ -1,4 +1,5 @@
 package Banca.Conto;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Titolare {
@@ -8,13 +9,27 @@ public class Titolare {
 	public String nome;
 	public String cognome;
 	public String citta;
-	public LocalDate dataApertura;
+	public Date dataApertura; //DA FAR DIVENTARE DATA ISCRIZIONE
 	public String nazione;
 	public String numero;
 	
+
+	
+	
+	public Titolare(int id, String nome, String cognome, String citta, String nazione, String numero) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.citta = citta;
+		//this.dataApertura = dataApertura2;
+		this.nazione = nazione;
+		this.numero = numero;
+	}
+	
 	public Titolare() {}
-	
-	
+
+
 	public String getNazione() {return nazione;}
 	public void setNazione(String nazione) {this.nazione = nazione;}
 	public String getNumero() {return numero;}
@@ -22,8 +37,8 @@ public class Titolare {
 	public String getNome() {return nome;}
 	public String getCitta() {return citta;}
 	public void setCitta(String citta) {this.citta = citta;}
-	public LocalDate getDataApertura() {return dataApertura;}
-	public void setDataApertura(LocalDate dataApertura) {this.dataApertura = dataApertura;}
+	public Date getDataApertura() {return dataApertura;}
+	public void setDataApertura(Date dataApertura) {this.dataApertura = dataApertura;}
 	public void setNome(String nome) {this.nome = nome;}
 	public String getCognome() {return cognome;}
 	public void setCognome(String cognome) {this.cognome = cognome;}

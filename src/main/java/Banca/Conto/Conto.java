@@ -1,28 +1,26 @@
 package Banca.Conto;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public abstract class Conto {
-	    private static final double SALDO_INIZIALE = 1000;
+	    //private static final double SALDO_INIZIALE = 1000;
+	    private int idConto;
+	    private int idCorrentista;
 	    protected String idTipo;
-		private Titolare titolare;
+		protected Titolare titolare;
 		private String importo;
 		protected LocalDate dataPrec;
 	    protected LocalDate dataSucc;
-	    private double saldo;
+	    protected double saldo;
 	    protected double tasso;
 	    private double totale;
 		double ultimoInteresse;
     	boolean flag = true;
-    	public abstract double retrieveTasso();
-    	public abstract double retrieveSaldo();
 
 	    public Conto() {
-	        this.saldo = SALDO_INIZIALE;
 	    }
+	    
 
 	    public double aggiornaSaldo() {
 	        this.saldo += this.totale;
@@ -98,11 +96,15 @@ public abstract class Conto {
 		public double getTotale() {return totale;}
 		public void setTotale(double totale) {this.totale = totale;}	
 		public String getImporto() {return importo;}
-		public void setImporto(String importo) {this.importo = importo;}
+		public void setImporto(String importo) {this.importo = importo;}				
+		public int getIdConto() {return idConto;}
+		public void setIdConto(int idConto) {this.idConto = idConto;}		
+		public int getIdCorrentista() {return idCorrentista;}
+		public void setIdCorrentista(int idCorrentista) {this.idCorrentista = idCorrentista;}
 		
 		
 		public void stampa(Titolare titolare) {   //TOGLIERE LO STAMPA E METTERLO COME METODO ABSTARCT
-	    	System.out.println(titolare.getNome() + " " + titolare.getCognome() + " " + titolare.getDataApertura() + " " + getSaldo() + " "+ this.dataPrec);
+	    	System.out.println(titolare.getNome() + " " + titolare.getCognome() +  " " + getSaldo());
 	    }
     
 	}
