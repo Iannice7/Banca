@@ -8,8 +8,8 @@ public class ContoDeposito extends Conto{
 //		this.tasso = retrieveTasso();
 		
 	}  
-	public void generaInteressi(LocalDate date, Titolare t) {
-		super.generaInteressi(date, t);
+	public void generaInteressi(LocalDate date, Titolare t,ContoDeposito c) {
+		super.generaInteressi(date, t,c);
 	}
 	
 	 public void preleva(int n) {

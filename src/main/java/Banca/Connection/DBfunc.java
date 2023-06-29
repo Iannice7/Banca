@@ -206,6 +206,7 @@ public class DBfunc {
 			                System.out.println("Tasso recuperato : " + tasso);
 			            }
 			            
+			            conto2.setDataUltimoMovimento(LocalDate.now());
 						conto2.setIdConto(contoid);
 						conto2.setTitolare(retrieveTitolare(conto2));
 						conto2.setSaldo(saldo);

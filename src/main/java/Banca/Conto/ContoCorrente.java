@@ -7,7 +7,7 @@ public class ContoCorrente extends Conto{
 		this.idTipo = "CC";
 
 	}
-	public void generaInteressi(LocalDate date, Titolare t) {
-		super.generaInteressi(date, t);
+	public void generaInteressi(LocalDate date, Titolare t, ContoCorrente c) {
+		super.generaInteressi(date, t,c);
 	}   
 }

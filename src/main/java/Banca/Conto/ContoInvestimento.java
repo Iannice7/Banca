@@ -9,8 +9,8 @@ public class ContoInvestimento extends Conto{
 		this.tasso = tassoRandom();
 	}
 	
-	public void generaInteressi(LocalDate date, Titolare t) {
-		super.generaInteressi(date, t);
+	public void generaInteressi(LocalDate date, Titolare t, ContoInvestimento c) {
+		super.generaInteressi(date, t,c);
 	}
 	
     public double tassoRandom() {

@@ -10,16 +10,15 @@ public abstract class Conto {
 	    protected String idTipo;
 		protected Titolare titolare;
 		private String importo;
-		protected LocalDate dataPrec;
-	    protected LocalDate dataSucc;
+		protected LocalDate dataUltimoMovimento; //dataUltimoMovimento
+	    //protected LocalDate dataSucc; //dataLocale
 	    protected double saldo;
 	    protected double tasso;
 	    private double totale;
 		double ultimoInteresse;
     	boolean flag = true;
 
-	    public Conto() {
-	    }
+	    public Conto() {}
 	    
 
 	    public double aggiornaSaldo() {
@@ -41,8 +40,9 @@ public abstract class Conto {
 	            	char asciiMinus = (char) 45; // codice ASCII per "+"
 	    	        this.importo = Character.toString(asciiMinus) + " " + n;
 	                this.saldo -= n;
-	                this.saldo = Math.round(this.saldo * 100.0) / 100.0; 
+	                this.saldo = Math.round(this.saldo * 100.0) / 100.0;
 	            }
+            this.dataUltimoMovimento = getDataUltimoMovimento();
 	        }
 	    
 
@@ -53,28 +53,29 @@ public abstract class Conto {
 	        char asciiPlus = (char) 43; // codice ASCII per "+"
 	        this.importo = Character.toString(asciiPlus) + " " + n;
 	        this.saldo += n;
-	        this.saldo = Math.round(this.saldo * 100.0) / 100.0; 
+	        this.saldo = Math.round(this.saldo * 100.0) / 100.0;
+	        
+	        this.dataUltimoMovimento = getDataUltimoMovimento();
 	    }
 	    
-	    public void generaInteressi(LocalDate date, Titolare t) {
-	    	//IMPLEMENTARE SWITCH CASE PER LA FLAG <=1, <=2, >2
-	    	// in >2 impostare la funzione genera random dopo quella data
-	    	//SALVARE IL NUMERO DI SESSIONE E inserirlo come codice movimento
+	    public void generaInteressi(LocalDate date, Titolare t, Conto c) {
+	    	System.out.println(date);
 	    	if(flag) {
-		    	this.dataPrec = date;
+		    	this.dataUltimoMovimento = date;
 		    	this.flag = false;
 	    	}
 	    	else {
 	    	double interesseGiornaliero;
-	    	interesseGiornaliero = ((this.tasso * this.saldo) / 100)/365;
-	    	long n = ChronoUnit.DAYS.between(dataPrec, date);
+	    	interesseGiornaliero = ((getTasso() * getSaldo()) / 100)/365;
+	    	long n = ChronoUnit.DAYS.between(getDataUltimoMovimento(), date);
 	    	System.out.println("Dal tuo ultimo accesso sono passati: " + n + " giorni");
 	    	ultimoInteresse = (Math.abs(interesseGiornaliero) * n) * Math.signum(interesseGiornaliero);
 	    	ultimoInteresse = Math.round(ultimoInteresse * 100.0) / 100.0;
 	    	System.out.println("Ultimo interesse: " + ultimoInteresse);
 			totale += ultimoInteresse;
 			totale = Math.round(totale * 100.0) / 100.0;
-			this.dataPrec = date;
+			setDataUltimoMovimento(date);
+			System.out.println(getDataUltimoMovimento());
 			n = 0;
 	    	}
 	    	//SQL INSERIRE ULTIMO INTERESSE NELLA STAMPA ESTRATT CONTO DI ISTANZA  	 
@@ -100,9 +101,13 @@ public abstract class Conto {
 		public int getIdConto() {return idConto;}
 		public void setIdConto(int idConto) {this.idConto = idConto;}		
 		public int getIdCorrentista() {return idCorrentista;}
-		public void setIdCorrentista(int idCorrentista) {this.idCorrentista = idCorrentista;}
-		
-		
+		public void setIdCorrentista(int idCorrentista) {this.idCorrentista = idCorrentista;}						
+		public LocalDate getDataUltimoMovimento() {return dataUltimoMovimento;}
+		public void setDataUltimoMovimento(LocalDate dataUltimoMovimento) {this.dataUltimoMovimento = dataUltimoMovimento;}
+		public double getUltimoInteresse() {return ultimoInteresse;}
+		public void setUltimoInteresse(double ultimoInteresse) {this.ultimoInteresse = ultimoInteresse;}
+
+
 		public void stampa(Titolare titolare) {   //TOGLIERE LO STAMPA E METTERLO COME METODO ABSTARCT
 	    	System.out.println(titolare.getNome() + " " + titolare.getCognome() +  " " + getSaldo());
 	    }

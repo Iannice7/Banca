@@ -20,8 +20,9 @@ public class App
         GestoreATM display = new GestoreATM();
         display.init();
         while(true) {
-        	if(display.logout()==false)
+        	if(display.logout())
         		display = new GestoreATM();
+        		display.logout();
         		display.init();
         	break;
         }
