@@ -107,11 +107,10 @@ public class GestoreATM {
 				break;
 
 			case 6:
-				//sceltaUtente.setDataUltimoMovimento(LocalDate.now());
+				sceltaUtente.setDataUltimoMovimento(LocalDate.now());
 				sceltaUtente.stampa(this.t);
 				sceltaUtente.generaInteressi(sceltaUtente.getDataUltimoMovimento(), this.t, this.sceltaUtente);
 				LocalDate date2 = LocalDate.of(2023, 12, 31);
-				sceltaUtente.setDataUltimoMovimento(date2);
 				this.sceltaUtente.generaInteressi(date2, this.t,this.sceltaUtente);
 				this.sceltaUtente.stampa(t);
 				logout();

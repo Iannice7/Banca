@@ -206,6 +206,7 @@ public class DBfunc {
 			                System.out.println("Tasso recuperato : " + tasso);
 			            }
 			            
+			            System.out.println(contoid);
 			            conto2.setDataUltimoMovimento(LocalDate.now());
 						conto2.setIdConto(contoid);
 						conto2.setTitolare(retrieveTitolare(conto2));
@@ -246,12 +247,13 @@ public int DBrecuperaIDConto (Conto c, Titolare t) {
 public double DBPreleva (Conto c, Titolare t) {
 	double saldo = 0;
 	try {
-		id_conto = DBrecuperaIDConto(c, t);
+		id_conto = c.getIdConto();
+		System.out.println(c.getIdConto());
 
 		PreparedStatement setSaldo = dbHandler.getConnection().prepareStatement("INSERT into movimenti (saldo_precedente,id_tipo_movimento,id_conto) values(?,?,?)", Statement.RETURN_GENERATED_KEYS);
 		setSaldo.setDouble(1, c.getSaldo()); //ALLA PRIMA ITERATA DARA' 1000
 		setSaldo.setString(2, "PRE");
-		setSaldo.setInt(3, this.id_conto);
+		setSaldo.setInt(3, c.getIdConto());
 		setSaldo.executeUpdate();
 
 		ResultSet generatedKeys = setSaldo.getGeneratedKeys();
@@ -272,12 +274,13 @@ public double DBPreleva (Conto c, Titolare t) {
 public double DBVersa (Conto c, Titolare t) {
 	double saldo = 0;
 	try {
-		id_conto = DBrecuperaIDConto(c, t);
+		id_conto = c.getIdConto();
+		System.out.println(c.getIdConto());
 
 		PreparedStatement setSaldo = dbHandler.getConnection().prepareStatement("INSERT into movimenti (saldo_precedente,id_tipo_movimento,id_conto) values(?,?,?)", Statement.RETURN_GENERATED_KEYS);
 		setSaldo.setDouble(1, c.getSaldo());
 		setSaldo.setString(2, "VER");
-		setSaldo.setInt(3, this.id_conto);
+		setSaldo.setInt(3, c.getIdConto());
 		setSaldo.executeUpdate();
 
 		ResultSet generatedKeys = setSaldo.getGeneratedKeys();
@@ -297,11 +300,7 @@ public double DBVersa (Conto c, Titolare t) {
 
 public void DBAggiorna (Conto c, Titolare t) {
 	LocalDate date = LocalDate.now();
-	int id_conto = 0;
-
 	try {
-		id_conto = DBrecuperaIDConto(c, t);
-
 		PreparedStatement setDataMove = dbHandler.getConnection().prepareStatement("UPDATE movimenti set data_del_movimento = ? where id_sessione = ?");
 		setDataMove.setDate(1, java.sql.Date.valueOf(date));
 		setDataMove.setInt(2, this.id_sessione);
@@ -314,7 +313,7 @@ public void DBAggiorna (Conto c, Titolare t) {
 
 		PreparedStatement aggiornaSaldo = dbHandler.getConnection().prepareStatement("UPDATE conto set saldo = ? where id_conto = ?");
 		aggiornaSaldo.setDouble(1, c.getSaldo());
-		aggiornaSaldo.setInt(2, id_conto);
+		aggiornaSaldo.setInt(2, this.id_conto);
 		aggiornaSaldo.executeUpdate();	
 
 		PreparedStatement aggiornaImporto = dbHandler.getConnection().prepareStatement("Update movimenti set importo = ? where id_sessione = ?");

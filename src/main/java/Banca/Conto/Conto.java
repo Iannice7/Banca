@@ -11,7 +11,6 @@ public abstract class Conto {
 		protected Titolare titolare;
 		private String importo;
 		protected LocalDate dataUltimoMovimento; //dataUltimoMovimento
-	    //protected LocalDate dataSucc; //dataLocale
 	    protected double saldo;
 	    protected double tasso;
 	    private double totale;
@@ -54,7 +53,6 @@ public abstract class Conto {
 	        this.importo = Character.toString(asciiPlus) + " " + n;
 	        this.saldo += n;
 	        this.saldo = Math.round(this.saldo * 100.0) / 100.0;
-	        
 	        this.dataUltimoMovimento = getDataUltimoMovimento();
 	    }
 	    
@@ -78,7 +76,7 @@ public abstract class Conto {
 			System.out.println(getDataUltimoMovimento());
 			n = 0;
 	    	}
-	    	//SQL INSERIRE ULTIMO INTERESSE NELLA STAMPA ESTRATT CONTO DI ISTANZA  	 
+	    	  	 
 	    }
 	    
 	    public long calcolaDiffAnni(LocalDate dataPrecedente, LocalDate dataSuccessiva) {
