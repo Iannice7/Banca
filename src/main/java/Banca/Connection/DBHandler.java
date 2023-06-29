@@ -25,7 +25,7 @@ public class DBHandler {
 	public DBHandler() {
 		   prop = new Properties();
 		    try {
-		        FileInputStream fis = new FileInputStream("C:\\Workspace\\Banca\\resources\\config.properties");
+		        FileInputStream fis = new FileInputStream(".\\resources\\config.properties");
 		        prop.load(fis);
 		    } catch (IOException e) {
 		        System.out.println("Errore durante il caricamento del file config.properties");

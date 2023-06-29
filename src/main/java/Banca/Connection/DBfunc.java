@@ -349,7 +349,7 @@ public void chiudiConto(Conto c, Titolare t) {
 	String query = "DELETE FROM conto WHERE id_conto = ?";
 	String query2 = "DELETE FROM movimenti WHERE id_conto = ?";
 
-	System.out.println("Data chiusura: |" + LocalDate.now() + " | TOTALE LORDO" + c.getTotale() + " | " + "TOTALE NETTO" + (this.totaleNetto * 0.26));
+	System.out.println("Data chiusura: |" + LocalDate.now() + " | TOTALE LORDO " + c.getTotale() + " | " + "TOTALE NETTO " + (this.totaleNetto * 0.26));
 
 	try {
 		//CANCELLA MOVIMENTI
@@ -373,12 +373,12 @@ public void chiudiConto(Conto c, Titolare t) {
 }
 
 public void memorizzazioneInCSV(Conto c, Titolare t) {
-	String csvFilePath = "C:\\Workspace\\Banca\\movimenti" + t.getNome() + t.getCognome() + ".csv";
+	String csvFilePath = ".\\movimenti" + t.getNome() + t.getCognome() + ".csv";
 
 	try {
 
 		Statement statement = dbHandler.getConnection().createStatement();
-		ResultSet resultSet = statement.executeQuery("SELECT * FROM movimenti WHERE id_conto ='"+this.id_conto+"'");
+		ResultSet resultSet = statement.executeQuery("SELECT * FROM movimenti WHERE id_conto ='"+ this.id_conto+"'");
 		CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFilePath)); 
 		// Recupera i metadati delle colonne
 		int numColumns = resultSet.getMetaData().getColumnCount();
@@ -396,7 +396,7 @@ public void memorizzazioneInCSV(Conto c, Titolare t) {
 			}
 			csvWriter.writeNext(row);
 		}
-		String[] interessi = {" Interessi accumulati " + c.getTotale() , " al netto: " +  this.totaleNetto};
+		String[] interessi = {"Interessi accumulati " + c.getTotale() , " al netto: " +  this.totaleNetto};
 		csvWriter.writeNext(interessi);
 		System.out.println("Dati della tabella inseriti nel file CSV con successo.");
 		csvWriter.close();

@@ -7,6 +7,11 @@ import Banca.Conto.Conto;
 import Banca.Conto.ContoCorrente;
 import Banca.Conto.GestoreATM;
 import Banca.Conto.Titolare;
+/**
+ * 
+ * 
+ * @author Francesco & Guido      swap(s1,s1);
+ */
 
 public class App 
 {
