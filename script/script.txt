@@ -76,3 +76,28 @@ CREATE TABLE `movimenti` (
   CONSTRAINT `movimenti_ibfk_1` FOREIGN KEY (`id_tipo_movimento`) REFERENCES `tipo_movimento` (`id_tipo_movimento`),
   CONSTRAINT `movimenti_ibfk_2` FOREIGN KEY (`id_conto`) REFERENCES `conto` (`id_conto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- INSERT
+
+INSERT INTO bancacentrale.tipo_movimento
+(id_tipo_movimento, descrizione)
+VALUES('AGG', 'Aggiorna Saldo');
+INSERT INTO bancacentrale.tipo_movimento
+(id_tipo_movimento, descrizione)
+VALUES('PRE', 'Prelievo');
+INSERT INTO bancacentrale.tipo_movimento
+(id_tipo_movimento, descrizione)
+VALUES('VER', 'Versamento');
+
+
+INSERT INTO bancacentrale.tipo_conto
+(id_tipo_conto, descrizione, tasso)
+VALUES('CC', 'Conto Corrente', 5.00);
+INSERT INTO bancacentrale.tipo_conto
+(id_tipo_conto, descrizione, tasso)
+VALUES('CD', 'Conto Deposito', 10.00);
+INSERT INTO bancacentrale.tipo_conto
+(id_tipo_conto, descrizione, tasso)
+VALUES('CI', 'Conto Investimento', -10.00);
+
