@@ -1,67 +1,78 @@
-DROP TABLE IF EXISTS correntista;
-CREATE TABLE correntista (
-    id_correntista INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(50) NOT NULL,
-    cognome VARCHAR(50) NOT NULL,
-    citta VARCHAR(50) NOT NULL,
-    nazione VARCHAR(50) NOT NULL,
-    telefono varchar(10) not null
-);
+-- bancacentrale.correntista definition
 
-DROP TABLE IF EXISTS tipo_movimento;
-CREATE TABLE tipo_movimento (
-    id_tipo_movimento VARCHAR(3) PRIMARY KEY,
-    descrizione VARCHAR(50)
-);
-
-DROP TABLE IF EXISTS tipo_conto;
-CREATE TABLE tipo_conto (
-    id_tipo_conto VARCHAR(2) PRIMARY KEY,
-    descrizione VARCHAR(50),
-    tasso DECIMAL(5,2)
-);
-
--- ------------------------------- TABELLE CON RELAZIONI ------------------------------------------------------
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-    id_user INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(20) UNIQUE,
-    pass VARCHAR(8),
-    id_correntista INT,
-    FOREIGN KEY (id_correntista) REFERENCES correntista(id_correntista) 
-);
-
-ALTER TABLE users
-ADD CONSTRAINT FK_users
-FOREIGN KEY (id_correntista)
-REFERENCES correntista(id_correntista);
-
-ALTER TABLE correntista
-ADD CONSTRAINT FK_correntista
-FOREIGN KEY (id_correntista)
-REFERENCES users(id_correntista);
+CREATE TABLE `correntista` (
+  `id_correntista` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `cognome` varchar(50) NOT NULL,
+  `citta` varchar(50) NOT NULL,
+  `nazione` varchar(50) NOT NULL,
+  `telefono` varchar(10) NOT NULL,
+  PRIMARY KEY (`id_correntista`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-DROP TABLE IF EXISTS conto;
-CREATE TABLE conto (
-    id_conto INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    id_correntista INT,
-    id_tipo VARCHAR(2),
-    data_apertura DATE,
-    data_chiusura DATE,
-    FOREIGN KEY (id_correntista) REFERENCES correntista(id_correntista),
-    FOREIGN KEY (id_tipo) REFERENCES tipo_conto(id_tipo_conto)
-);
+-- bancacentrale.tipo_conto definition
 
-DROP TABLE IF EXISTS movimenti;
-CREATE TABLE movimenti (
-    id_sessione INT PRIMARY key auto_increment,
-    data_del_movimento DATE,
-    saldo_precedente DECIMAL(9,2),
-    id_tipo_movimento VARCHAR(3),
-    importo VARCHAR(50),
-    saldo_successivo DECIMAL(9,2),
-    id_conto INT,
-    FOREIGN KEY (id_tipo_movimento) REFERENCES tipo_movimento(id_tipo_movimento),
-    FOREIGN KEY (id_conto) REFERENCES conto(id_conto)
-);
+CREATE TABLE `tipo_conto` (
+  `id_tipo_conto` varchar(2) NOT NULL,
+  `descrizione` varchar(50) DEFAULT NULL,
+  `tasso` decimal(5,2) DEFAULT NULL,
+  PRIMARY KEY (`id_tipo_conto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- bancacentrale.tipo_movimento definition
+
+CREATE TABLE `tipo_movimento` (
+  `id_tipo_movimento` varchar(3) NOT NULL,
+  `descrizione` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_tipo_movimento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- bancacentrale.users definition
+
+CREATE TABLE `users` (
+  `id_user` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(20) DEFAULT NULL,
+  `pass` varchar(8) DEFAULT NULL,
+  `id_correntista` int DEFAULT NULL,
+  PRIMARY KEY (`id_user`),
+  UNIQUE KEY `username` (`username`),
+  KEY `id_correntista` (`id_correntista`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- bancacentrale.conto definition
+
+CREATE TABLE `conto` (
+  `id_conto` int NOT NULL AUTO_INCREMENT,
+  `id_correntista` int DEFAULT NULL,
+  `id_tipo` varchar(2) DEFAULT NULL,
+  `data_apertura` date DEFAULT NULL,
+  `data_chiusura` date DEFAULT NULL,
+  `saldo` decimal(9,2) DEFAULT NULL,
+  PRIMARY KEY (`id_conto`),
+  KEY `id_correntista` (`id_correntista`),
+  KEY `id_tipo` (`id_tipo`),
+  CONSTRAINT `conto_ibfk_1` FOREIGN KEY (`id_correntista`) REFERENCES `correntista` (`id_correntista`),
+  CONSTRAINT `conto_ibfk_2` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_conto` (`id_tipo_conto`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- bancacentrale.movimenti definition
+
+CREATE TABLE `movimenti` (
+  `id_sessione` int NOT NULL AUTO_INCREMENT,
+  `data_del_movimento` date DEFAULT NULL,
+  `saldo_precedente` decimal(9,2) DEFAULT NULL,
+  `id_tipo_movimento` varchar(3) DEFAULT NULL,
+  `importo` varchar(50) DEFAULT NULL,
+  `saldo_successivo` decimal(9,2) DEFAULT NULL,
+  `id_conto` int DEFAULT NULL,
+  PRIMARY KEY (`id_sessione`),
+  KEY `id_tipo_movimento` (`id_tipo_movimento`),
+  KEY `id_conto` (`id_conto`),
+  CONSTRAINT `movimenti_ibfk_1` FOREIGN KEY (`id_tipo_movimento`) REFERENCES `tipo_movimento` (`id_tipo_movimento`),
+  CONSTRAINT `movimenti_ibfk_2` FOREIGN KEY (`id_conto`) REFERENCES `conto` (`id_conto`)
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
